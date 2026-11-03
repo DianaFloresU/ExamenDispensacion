@@ -1,5 +1,5 @@
 // src/preguntas/entities/preguntas.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pregunta } from './pregunta.entity';
@@ -51,4 +51,19 @@ export class PreguntasService {
     const pregunta = await this.findOne(idMateria, nroPregunta);
     await this.preguntaRepository.remove(pregunta);
   }
+
+  async crearPregunta(createDto: CreatePreguntasDto) {
+    try {
+      const nuevaPregunta = this.preguntaRepository.create(createDto);
+      return await this.preguntaRepository.save(nuevaPregunta);
+    } catch (error: any) {
+      // P0001: Excepción lanzada por RAISE EXCEPTION en el Trigger PL/pgSQL
+      if (error.code === 'P0001') {
+        throw new BadRequestException(error.message);
+      }
+      throw new InternalServerErrorException(`Error al registrar la pregunta: ${error.message}`);
+    }
+  }
+
+
 }

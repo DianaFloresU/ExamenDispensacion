@@ -12,6 +12,11 @@ export class ConvocatoriasController {
     return this.convocatoriasService.findAll();
   }
 
+  @Get('estructura-general')
+  obtenerEstructuraGeneral() {
+    return this.convocatoriasService.obtenerEstructuraGeneral();
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.convocatoriasService.findOne(id);

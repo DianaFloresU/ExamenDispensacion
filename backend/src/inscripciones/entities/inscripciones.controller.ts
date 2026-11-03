@@ -12,6 +12,16 @@ export class InscripcionesController {
     return this.inscripcionesService.findAll();
   }
 
+  @Get(':id/boletin')
+  obtenerBoletin(@Param('id', ParseIntPipe) id: number) {
+    return this.inscripcionesService.obtenerBoletin(id);
+  }
+
+  @Get('convocatoria/:idConv/ranking')
+  obtenerRanking(@Param('idConv', ParseIntPipe) idConv: number) {
+    return this.inscripcionesService.obtenerRankingConvocatoria(idConv);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.inscripcionesService.findOne(id);
